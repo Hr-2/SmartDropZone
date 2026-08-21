@@ -1,0 +1,22 @@
+<Application x:Class="SmartDropZone.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             ShutdownMode="OnExplicitShutdown"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+
+        <!-- ============ Fluent dark-mode brushes ============ -->
+        <LinearGradientBrush x:Key="ShelfBrush" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#F62B2B33" Offset="0.0" />
+            <GradientStop Color="#F6212127" Offset="1.0" />
+        </LinearGradientBrush>
+
+        <SolidColorBrush x:Key="CardBrush" Color="#1AFFFFFF" />
+        <SolidColorBrush x:Key="CardHoverBrush" Color="#2EFFFFFF" />
+        <SolidColorBrush x:Key="CardSeparatorBrush" Color="#26FFFFFF" />
+        <SolidColorBrush x:Key="PrimaryTextBrush" Color="#E9FFFFFF" />
+        <SolidColorBrush x:Key="SecondaryTextBrush" Color="#99FFFFFF" />
+        <SolidColorBrush x:Key="AccentBrush" Color="#FF4CC2FF" />
+
+    </Application.Resources>
+</Application>
