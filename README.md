@@ -1,55 +1,63 @@
 # Smart Drop Zone
 
-A small Windows app that adds a shelf on the edge of your screen. You can drop files, folders, links and text onto it to keep them handy, then drag them back out to use them anywhere.
+A lightweight Windows desktop shelf that slides out from the edge of your screen to hold files, folders, links and text snippets for drag-and-drop reuse.
 
-If you just want the app, grab the latest build from the [Releases](https://github.com/Hr-2/SmartDropZone/releases) page, unzip it, and run `SmartDropZone.exe`.
+> Just want the app? Grab the latest version from the **[Releases](https://github.com/Hr-2/SmartDropZone/releases)** page. The **"Latest build"** release is always up to date, so download its zip, unzip it, and run `SmartDropZone.exe`. No install needed.
 
-## Features
+---
 
-- Slide-out shelf that docks to the right, left or top edge, or floats free anywhere on screen
-- Drop files, folders, links or text onto it to pin them as cards
-- Drag cards back out to send them to any app
-- Slides away when idle, opens when you hover it, or stays open if you pin it
-- Hold a docked shelf out of its edge to detach it, or hold it against another edge to switch docks
-- Sort by name, type or date added, with list and icon views
-- Resize with the corner handle, move it by dragging the top bar
-- Tray icon with quick options
-- No title bar, no taskbar entry, stays out of the way
+## ✨ Features
 
-## How to use it
+- **Slide-out shelf** docked to the **right**, **left**, or **top** edge, or **free-floating** anywhere you want
+- **Drop anything on it** and it gets pinned as a card
+- **Drag cards back out** to send them to any app (Explorer, browser, chat, etc.)
+- **Smart auto-hide** that slides it away when idle and pops it open on hover, or pin it always-open
+- **Hold gestures** to detach a docked shelf into free mode, or switch it to another edge
+- **Explorer-style** sorting (name / type / date added) and views (list / icons)
+- **Fully resizable** with a visible corner handle, and movable by dragging the top bar
+- **Tray icon** with quick controls (show/hide, docks, settings, exit)
+- Quiet in the background, with no title bar or taskbar entry
 
-- Pin an item: drag a file, folder, link or text onto the shelf
-- Send an item: drag a card off the shelf into any window
-- Open the shelf: hover the edge handle or the floating pill
-- Move it: drag the top bar
-- Resize it: drag the corner handle
-- Dock it: drag it to the right, left or top edge and hold
-- Detach it: pull it out into the middle of the screen and hold
-- Settings: click the gear icon, or right-click the shelf
+## 🖱️ How to use it
 
-## Requirements
+| What | How |
+| --- | --- |
+| Pin an item | Drag a file / folder / link / text onto the shelf |
+| Send an item | Drag a card off the shelf into any window |
+| Open the shelf | Hover the edge handle or the floating pill |
+| Move it | Drag the top bar |
+| Resize it | Drag the corner handle |
+| Dock it | Drag to the right / left / top edge and hold |
+| Detach it | Pull it out into the middle of the screen and hold |
+| Settings | Click the gear icon, or right-click the shelf |
+
+## 📋 Requirements
 
 - Windows 10 or 11
-- .NET 6 Desktop Runtime (usually already installed; if prompted, grab it from [Microsoft](https://dotnet.microsoft.com/download/dotnet/6.0))
+- .NET 6 Desktop Runtime (usually already installed; if prompted, get it from [Microsoft](https://dotnet.microsoft.com/download/dotnet/6.0))
 
-## Building
+## 🛠️ Building from source
 
-You need the .NET 6 SDK.
+You'll need the **.NET 6 SDK** (not just the runtime).
 
-```
+```bash
 dotnet build SmartDropZone.csproj -c Release
 ```
 
-The app is built to `bin/Release/net6.0-windows/SmartDropZone.exe`.
+The app is produced at `bin/Release/net6.0-windows/SmartDropZone.exe`.
 
-## Releases
+## 📦 Releases
 
-Every push to `main` builds the app automatically and updates the "Latest build" release, so there is always a fresh download ready. The release notes list what changed since the last build. The full history is in [CHANGELOG.md](CHANGELOG.md).
+Every push to `main` automatically builds the app in the cloud and updates a single **"Latest build"** release, so you always have the freshest version ready without building anything yourself.
 
-## AI assistance
+- Download the **"Latest build"** release from the [Releases](https://github.com/Hr-2/SmartDropZone/releases) page, it's always the newest binary.
+- The release notes list **what's new** since the last build in plain language.
+- The full history lives in **[CHANGELOG.md](CHANGELOG.md)**.
 
-I built this with the help of an AI coding assistant (opencode). I handled the design, direction and testing, and the AI helped me write and debug the code. I am stating this openly so nobody has to ask.
+## 🤖 AI assistance
 
-## License
+I built this with the help of an AI coding assistant (opencode). I handled the design, direction and testing, and the AI helped me write, refactor and debug the code. I'm stating this openly so nobody has to guess.
 
-This is a personal project. Use it freely.
+## 📄 License
+
+This is a personal project. Use it freely, modify it, and enjoy it.
