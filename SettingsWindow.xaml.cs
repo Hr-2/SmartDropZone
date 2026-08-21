@@ -41,6 +41,15 @@ namespace SmartDropZone
             ViewListRadio.IsChecked = current.ViewMode == ViewMode.List;
             ViewIconsRadio.IsChecked = current.ViewMode == ViewMode.Icons;
 
+            ThemeSlateRadio.IsChecked = current.Theme == AppTheme.Slate;
+            ThemeOceanRadio.IsChecked = current.Theme == AppTheme.Ocean;
+            ThemeForestRadio.IsChecked = current.Theme == AppTheme.Forest;
+            ThemeEmberRadio.IsChecked = current.Theme == AppTheme.Ember;
+            ThemeVioletRadio.IsChecked = current.Theme == AppTheme.Violet;
+            ThemeLightRadio.IsChecked = current.Theme == AppTheme.Light;
+            OpacitySlider.Value = current.Opacity * 100.0;
+            UpdateOpacityLabel();
+
             CollapseDelaySlider.Value = current.CollapseDelayMs;
             UpdateDelayLabel();
 
@@ -74,7 +83,25 @@ namespace SmartDropZone
             ViewIconsRadio.Checked += (_, _) => NotifyChanged();
             CollapseDelaySlider.ValueChanged += (_, _) => { UpdateDelayLabel(); NotifyChanged(); };
             AnimationSlider.ValueChanged += (_, _) => { UpdateAnimationLabel(); NotifyChanged(); };
+            ThemeSlateRadio.Checked += (_, _) => NotifyChanged();
+            ThemeOceanRadio.Checked += (_, _) => NotifyChanged();
+            ThemeForestRadio.Checked += (_, _) => NotifyChanged();
+            ThemeEmberRadio.Checked += (_, _) => NotifyChanged();
+            ThemeVioletRadio.Checked += (_, _) => NotifyChanged();
+            ThemeLightRadio.Checked += (_, _) => NotifyChanged();
+            OpacitySlider.ValueChanged += (_, _) => { UpdateOpacityLabel(); NotifyChanged(); };
         }
+
+        private void UpdateOpacityLabel()
+            => OpacityLabel.Text = ((int)OpacitySlider.Value).ToString(CultureInfo.InvariantCulture) + " %";
+
+        private AppTheme SelectedTheme()
+            => ThemeOceanRadio.IsChecked == true ? AppTheme.Ocean
+             : ThemeForestRadio.IsChecked == true ? AppTheme.Forest
+             : ThemeEmberRadio.IsChecked == true ? AppTheme.Ember
+             : ThemeVioletRadio.IsChecked == true ? AppTheme.Violet
+             : ThemeLightRadio.IsChecked == true ? AppTheme.Light
+             : AppTheme.Slate;
 
         private void UpdateDelayLabel()
             => DelayLabel.Text = ((int)CollapseDelaySlider.Value).ToString(CultureInfo.InvariantCulture) + " ms";
@@ -111,6 +138,8 @@ namespace SmartDropZone
                         : SortTypeRadio.IsChecked == true ? SortMode.Type
                         : SortMode.Name,
                 ViewMode = ViewIconsRadio.IsChecked == true ? ViewMode.Icons : ViewMode.List,
+                Theme = SelectedTheme(),
+                Opacity = OpacitySlider.Value / 100.0,
                 FreeLeft = _current.FreeLeft,
                 FreeTop = _current.FreeTop,
                 FreeWidth = _current.FreeWidth,

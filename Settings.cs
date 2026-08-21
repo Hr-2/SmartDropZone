@@ -45,6 +45,10 @@ namespace SmartDropZone
         public double? DockWidth { get; set; }
         public double? DockHeight { get; set; }
 
+        // Appearance
+        public AppTheme Theme { get; set; } = AppTheme.Slate;
+        public double Opacity { get; set; } = 1.0; // 0.3 - 1.0
+
         // Free-floating shelf geometry (null = unset, keep current position).
         public double? FreeLeft { get; set; }
         public double? FreeTop { get; set; }

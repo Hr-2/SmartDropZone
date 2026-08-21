@@ -5,18 +5,25 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
 
-        <!-- ============ Fluent dark-mode brushes ============ -->
+        <!-- ============ Themeable brushes (swapped at runtime by ThemeManager) ============ -->
         <LinearGradientBrush x:Key="ShelfBrush" StartPoint="0,0" EndPoint="1,1">
-            <GradientStop Color="#F62B2B33" Offset="0.0" />
-            <GradientStop Color="#F6212127" Offset="1.0" />
+            <GradientStop Color="#FF2B2B33" Offset="0.0" />
+            <GradientStop Color="#FF212127" Offset="1.0" />
         </LinearGradientBrush>
 
         <SolidColorBrush x:Key="CardBrush" Color="#1AFFFFFF" />
         <SolidColorBrush x:Key="CardHoverBrush" Color="#2EFFFFFF" />
         <SolidColorBrush x:Key="CardSeparatorBrush" Color="#26FFFFFF" />
-        <SolidColorBrush x:Key="PrimaryTextBrush" Color="#E9FFFFFF" />
-        <SolidColorBrush x:Key="SecondaryTextBrush" Color="#99FFFFFF" />
+        <SolidColorBrush x:Key="PrimaryTextBrush" Color="#E9E9EF" />
+        <SolidColorBrush x:Key="SecondaryTextBrush" Color="#9A9AA5" />
+        <SolidColorBrush x:Key="SubtleTextBrush" Color="#666670" />
         <SolidColorBrush x:Key="AccentBrush" Color="#FF4CC2FF" />
+        <SolidColorBrush x:Key="SelectionBrush" Color="#3D4CC2FF" />
+        <SolidColorBrush x:Key="HoverBrush" Color="#33FFFFFF" />
+        <SolidColorBrush x:Key="InputBrush" Color="#0FFFFFFF" />
+        <SolidColorBrush x:Key="InputBorderBrush" Color="#1FFFFFFF" />
+        <SolidColorBrush x:Key="BadgeBrush" Color="#33FFFFFF" />
+        <SolidColorBrush x:Key="HandleBrush" Color="#4DFFFFFF" />
 
     </Application.Resources>
 </Application>

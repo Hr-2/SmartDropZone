@@ -699,6 +699,8 @@ namespace SmartDropZone
             Topmost = _settings.AlwaysOnTop;
             _dock = _settings.DockEdge;
             _pinned = _settings.AlwaysOpen;
+            Opacity = Math.Clamp(_settings.Opacity, 0.3, 1.0);
+            ThemeManager.Apply(_settings.Theme);
             UpdatePinButton();
             ApplyLayout();
 
@@ -1435,10 +1437,14 @@ namespace SmartDropZone
             _settings.HoldFillMs = updated.HoldFillMs;
             _settings.SortMode = updated.SortMode;
             _settings.ViewMode = updated.ViewMode;
+            _settings.Theme = updated.Theme;
+            _settings.Opacity = updated.Opacity;
             _settings.Save();
             _settings.ApplyStartWithWindows();
             Topmost = _settings.AlwaysOnTop;
             _pinned = _settings.AlwaysOpen;
+            Opacity = Math.Clamp(_settings.Opacity, 0.3, 1.0);
+            ThemeManager.Apply(_settings.Theme);
             UpdatePinButton();
             SetDock(_settings.DockEdge);
             ApplySort(_settings.SortMode);

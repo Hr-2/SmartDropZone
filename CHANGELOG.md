@@ -4,6 +4,13 @@ All notable changes to **Smart Drop Zone** are listed here, newest first.
 
 > **Note:** this app is built with the help of an AI coding assistant (opencode). The human author handles design, direction and testing; the AI helps write and debug the code.
 
+## Unreleased
+
+- Added 6 themes (Slate, Ocean, Forest, Ember, Violet, Light) that change the shelf's colors, switchable from Settings.
+- Added a Transparency slider in Settings (30-100%) to make the shelf see-through.
+- Reorganized Settings into tabs: General, Appearance, Behavior, Sort & View.
+- Fixed a crash when opening Settings (toggle switch could not freeze a storyboard referencing a dynamic color).
+
 ## v1.0.4
 
 - Added an AI-assistance note (this project is built with help from an AI coding assistant).
