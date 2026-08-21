@@ -9,10 +9,10 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: '6.0.x'
 
@@ -23,7 +23,7 @@ jobs:
         run: dotnet build SmartDropZone.csproj -c Release --no-restore
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: SmartDropZone
           path: bin/Release/net6.0-windows/
@@ -35,7 +35,7 @@ jobs:
       contents: write
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: SmartDropZone
           path: dist
@@ -51,7 +51,7 @@ jobs:
           echo "tag=v$(date +'%Y.%m.%d.%H%M')" >> "$GITHUB_OUTPUT"
 
       - name: Create Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ steps.version.outputs.tag }}
           name: SmartDropZone ${{ steps.version.outputs.tag }}
