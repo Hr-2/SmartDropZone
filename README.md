@@ -22,10 +22,10 @@ A lightweight Windows desktop shelf that slides out from the edge of your screen
 ## Building
 
 ```bash
-dotnet build SmartDropZone/SmartDropZone.csproj -c Release
+dotnet build SmartDropZone.csproj -c Release
 ```
 
-The executable is produced at `SmartDropZone/bin/Release/net6.0-windows/SmartDropZone.exe`.
+The executable is produced at `bin/Release/net6.0-windows/SmartDropZone.exe`.
 
 ## Downloads
 

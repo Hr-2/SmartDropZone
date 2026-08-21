@@ -17,16 +17,16 @@ jobs:
           dotnet-version: '6.0.x'
 
       - name: Restore
-        run: dotnet restore SmartDropZone/SmartDropZone.csproj
+        run: dotnet restore SmartDropZone.csproj
 
       - name: Build Release
-        run: dotnet build SmartDropZone/SmartDropZone.csproj -c Release --no-restore
+        run: dotnet build SmartDropZone.csproj -c Release --no-restore
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: SmartDropZone
-          path: SmartDropZone/bin/Release/net6.0-windows/
+          path: bin/Release/net6.0-windows/
 
   release:
     needs: build
