@@ -50,15 +50,19 @@ jobs:
           cd dist
           zip -r ../SmartDropZone.zip .
 
-      - name: Get version
-        id: version
-        run: echo "tag=v1.0.${{ github.run_number }}" >> "$GITHUB_OUTPUT"
+      # Remember the commit the previous "latest" build was made from, so the
+      # changelog shows what changed since then.
+      - name: Get previous build commit
+        id: prev
+        run: |
+          PREV_SHA=$(git rev-parse latest 2>/dev/null || echo "")
+          echo "sha=$PREV_SHA" >> "$GITHUB_OUTPUT"
 
-      # Simple, human-friendly changelog: the commit messages since the last
-      # release, as plain bullets (no code links).
+      # Simple, human-friendly changelog: commit messages since the last build,
+      # as plain bullets (no code links).
       - name: Build changelog
         run: |
-          PREV=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          PREV="${{ steps.prev.outputs.sha }}"
           {
             echo "## What's new"
             echo ""
@@ -69,10 +73,17 @@ jobs:
             fi
           } > /tmp/body.md
 
-      - name: Create Release
+      - name: Remove old latest release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release delete latest --yes --cleanup-tag 2>/dev/null || true
+
+      # One always-updated "Latest build" release. Users download from the same
+      # link every time and always get the freshest binary.
+      - name: Create Latest release
         uses: softprops/action-gh-release@v3
         with:
-          tag_name: ${{ steps.version.outputs.tag }}
-          name: SmartDropZone ${{ steps.version.outputs.tag }}
+          tag_name: latest
+          name: Latest build
           body_path: /tmp/body.md
           files: SmartDropZone.zip
