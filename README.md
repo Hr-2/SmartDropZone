@@ -54,6 +54,10 @@ Every push to `main` automatically builds the app in the cloud and updates a sin
 - The release notes list **what's new** since the last build in plain language.
 - The full history lives in **[CHANGELOG.md](CHANGELOG.md)**.
 
+## 🤖 AI assistance
+
+This project was **built with the help of an AI coding assistant** (opencode). The human author did the design, direction, testing and decisions; the AI helped write, refactor and debug the code. It's stated openly here so nobody has to guess — no secrets, no drama.
+
 ## 📄 License
 
 This is a personal project — use it freely, modify it, and enjoy it.
