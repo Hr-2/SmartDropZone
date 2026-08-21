@@ -11,10 +11,6 @@ All notable changes to **Smart Drop Zone** are listed here, newest first.
 - Reorganized Settings into tabs: General, Appearance, Behavior, Sort & View.
 - Fixed a crash when opening Settings (toggle switch could not freeze a storyboard referencing a dynamic color).
 
-## v1.0.4
-
-- Added an AI-assistance note (this project is built with help from an AI coding assistant).
-
 ## v1.0.3
 
 - Updated the automated build to the latest versions (cleaner, no warnings).
