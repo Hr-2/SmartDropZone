@@ -34,6 +34,11 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
       - name: Download artifact
         uses: actions/download-artifact@v8
         with:
@@ -47,13 +52,27 @@ jobs:
 
       - name: Get version
         id: version
+        run: echo "tag=v1.0.${{ github.run_number }}" >> "$GITHUB_OUTPUT"
+
+      # Simple, human-friendly changelog: the commit messages since the last
+      # release, as plain bullets (no code links).
+      - name: Build changelog
         run: |
-          echo "tag=v$(date +'%Y.%m.%d.%H%M')" >> "$GITHUB_OUTPUT"
+          PREV=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          {
+            echo "## What's new"
+            echo ""
+            if [ -n "$PREV" ]; then
+              git log --oneline --no-merges "$PREV"..HEAD | sed 's/^[0-9a-f]*[ ]*/- /'
+            else
+              git log --oneline --no-merges | sed 's/^[0-9a-f]*[ ]*/- /'
+            fi
+          } > /tmp/body.md
 
       - name: Create Release
         uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ steps.version.outputs.tag }}
           name: SmartDropZone ${{ steps.version.outputs.tag }}
+          body_path: /tmp/body.md
           files: SmartDropZone.zip
-          generate_release_notes: true
