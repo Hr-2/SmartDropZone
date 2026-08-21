@@ -50,23 +50,16 @@ jobs:
           cd dist
           zip -r ../SmartDropZone.zip .
 
-      # Remember the commit the previous "latest" build was made from, so the
-      # changelog shows what changed since then.
-      - name: Get previous build commit
-        id: prev
-        run: |
-          PREV_SHA=$(git rev-parse latest 2>/dev/null || echo "")
-          echo "sha=$PREV_SHA" >> "$GITHUB_OUTPUT"
-
-      # Simple, human-friendly changelog: commit messages since the last build,
-      # as plain bullets (no code links).
+      # Simple, human-friendly changelog: commit messages since the last push,
+      # as plain bullets (no code links). github.event.before is the commit that
+      # was HEAD before this push (all-zero on the very first push).
       - name: Build changelog
         run: |
-          PREV="${{ steps.prev.outputs.sha }}"
+          PREV="${{ github.event.before }}"
           {
             echo "## What's new"
             echo ""
-            if [ -n "$PREV" ]; then
+            if [ -n "$PREV" ] && [ "$PREV" != "0000000000000000000000000000000000000000" ]; then
               git log --oneline --no-merges "$PREV"..HEAD | sed 's/^[0-9a-f]*[ ]*/- /'
             else
               git log --oneline --no-merges | sed 's/^[0-9a-f]*[ ]*/- /'
