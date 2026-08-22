@@ -25,6 +25,7 @@ namespace SmartDropZone
         public double AnimationMs { get; set; } = 170; // docked slide-out duration
         public bool Animate { get; set; } = true;      // enable/disable animations
         public bool StartWithWindows { get; set; }
+        public bool CheckForUpdates { get; set; } = true;
 
         // Floating-shelf behaviour
         public bool AutoOpenCapsule { get; set; } = true;

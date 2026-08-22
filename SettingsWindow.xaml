@@ -347,6 +347,23 @@
                                     <TextBlock x:Name="DelayLabel" Foreground="{DynamicResource PrimaryTextBrush}" FontSize="11.5" FontWeight="SemiBold"/>
                                 </Border>
                             </Grid>
+
+                            <TextBlock Text="UPDATES" Style="{StaticResource SectionLabel}" Margin="0,20,0,0"/>
+                            <Grid Margin="0,8,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel>
+                                    <TextBlock Text="Check for updates on launch" Foreground="{DynamicResource PrimaryTextBrush}" FontSize="12.5" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Silently checks GitHub when the app starts" Foreground="{DynamicResource SecondaryTextBrush}" FontSize="10" Margin="0,2,0,0"/>
+                                </StackPanel>
+                                <ToggleButton x:Name="CheckUpdatesToggle" Grid.Column="1"
+                                              Style="{StaticResource ModernToggle}" VerticalAlignment="Center"/>
+                            </Grid>
+                            <Button x:Name="CheckForUpdatesButton" Content="Check for updates now"
+                                    Style="{StaticResource GhostButtonStyle}" HorizontalAlignment="Left" Margin="0,12,0,0"
+                                    Click="CheckForUpdates_Click"/>
                         </StackPanel>
                     </ScrollViewer>
                 </TabItem>

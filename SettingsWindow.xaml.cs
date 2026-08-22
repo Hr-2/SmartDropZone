@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -28,6 +29,7 @@ namespace SmartDropZone
             AlwaysOnTopCheck.IsChecked = current.AlwaysOnTop;
             AlwaysOpenCheck.IsChecked = current.AlwaysOpen;
             StartWithWindowsCheck.IsChecked = current.StartWithWindows;
+            CheckUpdatesToggle.IsChecked = current.CheckForUpdates;
             ExpandOnHoverCheck.IsChecked = current.AutoOpenCapsule;
             AnimateCheck.IsChecked = current.Animate;
             HoldToDetachCheck.IsChecked = current.HoldToDetach;
@@ -66,6 +68,8 @@ namespace SmartDropZone
             AlwaysOpenCheck.Unchecked += (_, _) => NotifyChanged();
             StartWithWindowsCheck.Checked += (_, _) => NotifyChanged();
             StartWithWindowsCheck.Unchecked += (_, _) => NotifyChanged();
+            CheckUpdatesToggle.Checked += (_, _) => NotifyChanged();
+            CheckUpdatesToggle.Unchecked += (_, _) => NotifyChanged();
             ExpandOnHoverCheck.Checked += (_, _) => NotifyChanged();
             ExpandOnHoverCheck.Unchecked += (_, _) => NotifyChanged();
             AnimateCheck.Checked += (_, _) => NotifyChanged();
@@ -129,6 +133,7 @@ namespace SmartDropZone
                 AnimationMs = AnimationSlider.Value,
                 Animate = AnimateCheck.IsChecked == true,
                 StartWithWindows = StartWithWindowsCheck.IsChecked == true,
+                CheckForUpdates = CheckUpdatesToggle.IsChecked == true,
                 AutoOpenCapsule = ExpandOnHoverCheck.IsChecked == true,
                 HoldToDetach = HoldToDetachCheck.IsChecked == true,
                 HoldToDock = HoldToDockCheck.IsChecked == true,
@@ -159,6 +164,22 @@ namespace SmartDropZone
         {
             if (e.OriginalSource is System.Windows.Controls.Button) return; // let the close button work
             if (e.ButtonState == MouseButtonState.Pressed) DragMove();
+        }
+
+        /// <summary>Manual "check for updates" button: query GitHub and show the result window.</summary>
+        private async void CheckForUpdates_Click(object sender, RoutedEventArgs e)
+        {
+            CheckForUpdatesButton.IsEnabled = false;
+            try
+            {
+                var info = await UpdateService.CheckForUpdateAsync();
+                var win = new UpdateWindow(info) { Owner = this };
+                win.Show();
+            }
+            finally
+            {
+                CheckForUpdatesButton.IsEnabled = true;
+            }
         }
     }
 }

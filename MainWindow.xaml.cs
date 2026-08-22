@@ -19,6 +19,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using System.Threading.Tasks;
 using System.Windows.Threading;
 using Microsoft.Win32;
 using WinForms = System.Windows.Forms;
@@ -184,6 +185,7 @@ namespace SmartDropZone
         private AppSettings _settings = new();
         private WinForms.NotifyIcon? _notifyIcon;
         private SettingsWindow? _settingsWindow;
+        private UpdateWindow? _updateWindow;
 
         private DockEdge _dock = DockEdge.Right;
         private bool _isExpanded = true;
@@ -310,6 +312,43 @@ namespace SmartDropZone
             UpdateBadgeAndEmptyState();
 
             SystemEvents.DisplaySettingsChanged += OnDisplaySettingsChanged;
+
+            if (_settings.CheckForUpdates)
+                _ = CheckForUpdatesAsync();
+        }
+
+        /// <summary>
+        /// Background update check on launch: query GitHub for the latest release
+        /// and, if a newer build exists, surface the update prompt. Never blocks.
+        /// </summary>
+        private async Task CheckForUpdatesAsync()
+        {
+            try
+            {
+                await Task.Delay(1500); // let the shelf settle before any prompt appears
+                var info = await UpdateService.CheckForUpdateAsync();
+                if (!info.HasUpdate) return;
+                ShowUpdateWindow(info);
+            }
+            catch
+            {
+                // Swallow anything unexpected — updates are a nice-to-have.
+            }
+        }
+
+        /// <summary>Show the update prompt/dialog (reuses an open one if present).</summary>
+        private void ShowUpdateWindow(UpdateInfo info)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                if (_updateWindow is { IsVisible: true })
+                {
+                    _updateWindow.Activate();
+                    return;
+                }
+                _updateWindow = new UpdateWindow(info) { Owner = this };
+                _updateWindow.Show();
+            });
         }
 
         private void Window_Closed(object? sender, EventArgs e)
@@ -1430,6 +1469,7 @@ namespace SmartDropZone
             _settings.AnimationMs = updated.AnimationMs;
             _settings.Animate = updated.Animate;
             _settings.StartWithWindows = updated.StartWithWindows;
+            _settings.CheckForUpdates = updated.CheckForUpdates;
             _settings.AutoOpenCapsule = updated.AutoOpenCapsule;
             _settings.HoldToDetach = updated.HoldToDetach;
             _settings.HoldToDock = updated.HoldToDock;
