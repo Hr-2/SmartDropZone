@@ -2,7 +2,7 @@
 
 A lightweight Windows desktop shelf that slides out from the edge of your screen to hold files, folders, links and text snippets for drag-and-drop reuse.
 
-> Just want the app? Grab the latest version from the **[Releases](https://github.com/Hr-2/SmartDropZone/releases)** page. The **"Latest build"** release is always up to date, so download its zip, unzip it, and run `SmartDropZone.exe`. No install needed.
+> Just want the app? Grab the newest version from the **[Releases](https://github.com/Hr-2/SmartDropZone/releases)** page — download the newest zip (e.g. `1.0.3`), unzip it, and run `SmartDropZone.exe`. No install needed.
 
 ---
 
@@ -48,11 +48,11 @@ The app is produced at `bin/Release/net6.0-windows/SmartDropZone.exe`.
 
 ## 📦 Releases
 
-Every push to `main` automatically builds the app in the cloud and updates a single **"Latest build"** release, so you always have the freshest version ready without building anything yourself.
+Every push to `main` automatically builds the app in the cloud, and versioned releases are published as tags. The newest version is always listed first on the [Releases](https://github.com/Hr-2/SmartDropZone/releases) page.
 
-- Download the **"Latest build"** release from the [Releases](https://github.com/Hr-2/SmartDropZone/releases) page, it's always the newest binary.
-- The release notes list **what's new** since the last build in plain language.
-- The full history lives in **[CHANGELOG.md](CHANGELOG.md)**.
+> **Tip:** the app checks for updates on launch automatically — you'll be prompted when a newer version is available.
+>
+> **Tip:** click **Check for updates now** in Settings to manually trigger a check.
 
 ## 🤖 AI assistance
 

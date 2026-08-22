@@ -20,18 +20,17 @@ namespace SmartDropZone
     }
 
     /// <summary>
-    /// Checks GitHub for a newer "Latest build" release and applies it.
-    /// The rolling release is tagged "latest"; its publish time is compared
-    /// against the local executable's build time to decide if an update exists.
+    /// Checks GitHub for a newer release and applies it. The newest release
+    /// (highest semver tag, e.g. "1.0.3") is compared against the running
+    /// version; if the remote is newer, an update is offered.
     /// </summary>
     public static class UpdateService
     {
         private const string RepoOwner = "Hr-2";
         private const string RepoName = "SmartDropZone";
-        private const string AssetName = "SmartDropZone.zip";
-        private const string ReleaseApiUrl = $"https://api.github.com/repos/{RepoOwner}/{RepoName}/releases/tags/latest";
+        private const string ReleasesApiUrl = $"https://api.github.com/repos/{RepoOwner}/{RepoName}/releases?per_page=20";
 
-        /// <summary>Queries GitHub for the latest release and compares it to the running build.</summary>
+        /// <summary>Queries GitHub for the newest release and compares it to the running version.</summary>
         public static async Task<UpdateInfo> CheckForUpdateAsync()
         {
             var info = new UpdateInfo { CurrentVersion = AppInfo.Version };
@@ -43,26 +42,38 @@ namespace SmartDropZone
                 client.DefaultRequestHeaders.Accept.ParseAdd("application/json");
                 client.Timeout = TimeSpan.FromSeconds(20);
 
-                var json = await client.GetStringAsync(ReleaseApiUrl);
+                var json = await client.GetStringAsync(ReleasesApiUrl);
                 using var doc = JsonDocument.Parse(json);
-                var root = doc.RootElement;
+                var releases = doc.RootElement;
 
-                info.LatestVersion = root.TryGetProperty("name", out var name)
-                    ? name.GetString() ?? "latest"
-                    : root.TryGetProperty("tag_name", out var tag) ? tag.GetString() ?? "" : "";
+                // Walk releases newest-first and pick the highest semver tag.
+                Version? best = null;
+                JsonElement bestRelease = default;
+                foreach (var release in releases.EnumerateArray())
+                {
+                    if (!release.TryGetProperty("tag_name", out var tagEl)) continue;
+                    string tag = tagEl.GetString() ?? "";
+                    if (!Version.TryParse(tag.TrimStart('v'), out var v)) continue;
+                    if (best is null || v > best)
+                    {
+                        best = v;
+                        bestRelease = release;
+                    }
+                }
 
-                info.ReleaseNotes = root.TryGetProperty("body", out var body) ? body.GetString() ?? "" : "";
+                if (best is null) return info;
 
-                string? publishedAt = root.TryGetProperty("published_at", out var pub)
-                    ? pub.GetString()
-                    : null;
+                info.LatestVersion = best.ToString();
 
-                if (root.TryGetProperty("assets", out var assets))
+                if (bestRelease.TryGetProperty("body", out var body))
+                    info.ReleaseNotes = body.GetString() ?? "";
+
+                if (bestRelease.TryGetProperty("assets", out var assets))
                 {
                     foreach (var asset in assets.EnumerateArray())
                     {
                         var assetName = asset.TryGetProperty("name", out var n) ? n.GetString() ?? "" : "";
-                        if (assetName.Equals(AssetName, StringComparison.OrdinalIgnoreCase))
+                        if (assetName.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
                         {
                             info.DownloadUrl = asset.TryGetProperty("browser_download_url", out var url) ? url.GetString() ?? "" : "";
                             break;
@@ -70,21 +81,8 @@ namespace SmartDropZone
                     }
                 }
 
-                if (!string.IsNullOrEmpty(publishedAt) &&
-                    DateTime.TryParse(publishedAt, out var published))
-                {
-                    // The local exe's build time is compared to the remote release's
-                    // publish time: a newer published build means an update is ready.
-                    try
-                    {
-                        var local = File.GetLastWriteTimeUtc(typeof(UpdateService).Assembly.Location);
-                        info.HasUpdate = published.ToUniversalTime() > local;
-                    }
-                    catch
-                    {
-                        info.HasUpdate = false;
-                    }
-                }
+                if (Version.TryParse(info.CurrentVersion, out var current))
+                    info.HasUpdate = best > current;
             }
             catch
             {
